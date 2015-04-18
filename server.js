@@ -5,9 +5,12 @@ const port = process.env.PORT || 8080
 
 // los callback son funciones que se ejecutan 
 // despues de una operacion asincrona
-const server = http.createServer(onRequest)
+const server = http.createServer()
 
-server.listen(port, onListening)
+server.on('request', onRequest)
+server.on('listening', onListening)
+
+server.listen(port)
 
 function onRequest(req, res){
 	res.end('Hola io.js')
