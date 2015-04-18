@@ -15,12 +15,15 @@ server.on('listening', onListening)
 server.listen(port)
 //un metodo asyncrono simpre lleva un callback
 function onRequest(req, res){
-	let fileName = path.join(__dirname, 'public', 'index.html')
-	fs.readFile(fileName,function(err, file){
-		if(err){
-			return res.end(err.message)
-		}
-		res.end(file)
+	let index = path.join(__dirname, 'public', 'index.html')
+	
+	res.setHeader('Content-Type','text/html')
+	let rs = fs.createReadStream(index)
+
+	rs.pipe(res)
+
+	rs.on('error', function(err){
+		res.end(err.message)
 	})
 }
 
